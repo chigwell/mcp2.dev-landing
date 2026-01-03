@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Copy, Check, ArrowUpRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -69,6 +69,34 @@ curl -H 'X-Mcp2dev-Token: my-secret-token' "https://tunnel.mcp2.dev/8dc6369c-e4e
 # +-------------------------+----------------------------------------------------------------------+`;
 
 export function AuthShowcase() {
+  const [tunnelCount, setTunnelCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch("https://mcp2dev-d1-api.chigwel137.workers.dev/total-tunnels")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch tunnel count");
+        }
+        return response.json() as Promise<{ tunnels?: number }>;
+      })
+      .then((data) => {
+        if (isMounted && typeof data.tunnels === "number") {
+          setTunnelCount(data.tunnels);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setTunnelCount(null);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="relative py-20">
       <div className="container grid gap-12 lg:grid-cols-2">
@@ -96,6 +124,11 @@ export function AuthShowcase() {
             <span className="rounded-full border border-border/60 bg-muted/40 px-3 py-1">
               Works with localhost:3000
             </span>
+            {tunnelCount !== null && (
+              <span className="rounded-full border border-border/60 bg-muted/40 px-3 py-1">
+                Active tunnels: {tunnelCount}
+              </span>
+            )}
           </div>
           <Button asChild size="lg" className="group w-fit shadow-md hover:shadow-xl">
             <a href="https://github.com/chigwell/mcp2.dev" target="_blank" rel="noreferrer">
