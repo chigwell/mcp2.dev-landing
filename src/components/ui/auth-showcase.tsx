@@ -98,16 +98,16 @@ export function AuthShowcase() {
   }, []);
 
   return (
-    <section className="relative py-20">
-      <div className="container grid gap-12 lg:grid-cols-2">
-        <div className="flex flex-col justify-center space-y-6">
+    <section className="relative py-16 sm:py-20">
+      <div className="container grid gap-10 md:grid-cols-2 md:items-center lg:gap-12">
+        <div className="mx-auto flex max-w-xl flex-col justify-center space-y-6 md:mx-0 md:max-w-none">
           <div className="flex items-center gap-2 text-primary">
             <ShieldCheck className="h-5 w-5" />
             <span className="text-sm font-semibold tracking-wide uppercase">
               Free Public Tunnels
             </span>
           </div>
-          <h2 className="text-4xl font-bold tracking-tight lg:text-5xl">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
             Share local MCP servers on the public internet in minutes
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -138,7 +138,7 @@ export function AuthShowcase() {
           </Button>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="mx-auto flex w-full max-w-xl flex-col gap-4 md:mx-0 md:max-w-none">
           <CodeCard code={tunnelSnippet} filename="mcp2dev-tunnel.sh" />
           <p className="text-xs text-muted-foreground">
             Your local port stays on your machine. The tunnel forwards traffic through mcp2.dev.
